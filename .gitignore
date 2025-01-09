@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+
+# Distribution / packaging
+*.egg-info/
+.eggs/
+*.egg
+*.whl
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Local development files
+.env
+.local
+
+# pip-tools
+*.bak
+
+# macOS
+.DS_Store
+
+# Mypy
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# Pytest
+.pytest_cache/
+
+# Docker Neo4j Dumps
+neo4j_dumps/
+
+# Unstructured
+**/notebooks/figures/
+data_ingestion/**/figures/
+app/domain/documents_ocr/output/**
