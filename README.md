@@ -10,8 +10,6 @@ The following tools are essential for the project development:
 
 - Framework: FastAPI (Modern and high-performance web framework for building APIs with Python)
 
-- Libraries: Poetry (Dependency management and packaging for Python), Pydantic (Data validation and settings management for Python) and SQLAlchemy (SQL toolkit for Python)
-
 - Database: PostgreSQL
 
 - Docker: Docker
