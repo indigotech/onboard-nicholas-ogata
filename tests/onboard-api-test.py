@@ -1,9 +1,9 @@
 import requests
 
-url = 'http://127.0.0.1:8000/users'
+url = 'http://127.0.0.1:8000'
 
 def test_get_all_users():
-    response = requests.get(url)
+    response = requests.get(url+'/users')
 
     assert response.status_code == 200
 
@@ -19,7 +19,7 @@ def test_get_all_users():
 
 def test_create_user():
     new_user = {'name': 'UserTest', 'age': 40, 'email': 'usertest@email.com'}
-    response = requests.post(url, json=new_user)
+    response = requests.post(url+'/users', json=new_user)
 
     assert response.status_code == 201
 
