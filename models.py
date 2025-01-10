@@ -11,4 +11,5 @@ class User(Base):
     age = Column(Integer, primary_key=False, index=True)
     email = Column(String, primary_key=False, index=True, unique=True)
     password = Column(String, primary_key=False)
+
     
