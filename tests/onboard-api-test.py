@@ -1,0 +1,34 @@
+import requests
+
+def test_get_all_users():
+    url = 'http://127.0.0.1:8000/users'
+    response = requests.get(url)
+
+    assert response.status_code == 200
+
+    assert response.headers['Content-Type'] == 'application/json'
+
+    data = response.json()
+
+    assert isinstance(data, list)
+    assert 'id' in data[0]
+    assert 'name' in data[0]
+    assert 'age' in data[0]
+    assert 'email' in data[0]
+
+def test_create_user():
+
+    url = 'http://127.0.0.1:8000/users'
+    new_user = {'name': 'UserTest', 'age': 40, 'email': 'usertest@email.com'}
+    response = requests.post(url, json=new_user)
+
+    assert response.status_code == 201
+
+    assert response.headers['Content-Type'] == 'application/json'
+
+    data = response.json()
+
+    assert 'id' in data
+    assert data['name'] == 'UserTest'
+    assert data['age'] == 40
+    assert data['email'] == 'usertest@email.com'
