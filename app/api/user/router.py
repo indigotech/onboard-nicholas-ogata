@@ -2,30 +2,20 @@ from typing import Annotated
 import bcrypt
 from sqlalchemy.orm import Session
 from starlette import status
-from fastapi import FastAPI, Depends
-import models
-from models import User
-from database import engine, SessionLocal
-from user import UserRequest, UserResponse
+from fastapi import APIRouter, Depends
+from app.api.user.schemas import UserRequest, UserResponse
+from app.core.utils import get_db
+from app.models import User
 
-app = FastAPI()
-
-models.Base.metadata.create_all(bind=engine)
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+router = APIRouter()
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
-@app.get('/users', status_code=status.HTTP_200_OK, response_model=list[UserResponse])
+@router.get('/', status_code=status.HTTP_200_OK, response_model=list[UserResponse])
 async def get_all_users(db: db_dependency):
     return db.query(User).all()
 
-@app.post('/users', status_code=status.HTTP_201_CREATED, response_model=UserResponse)
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=UserResponse)
 async def create_user(db: db_dependency, user_request: UserRequest):
     hashed_password = bcrypt.hashpw(user_request.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
