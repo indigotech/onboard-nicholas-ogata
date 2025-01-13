@@ -5,13 +5,16 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from app.api.auth.service import authenticate
+from app.api.user.schemas import UserResponse
+from app.api.user.service import get_current_active_user
 from app.core.config import settings
 from app.core.security import create_access_token
 from app.core.utils import db_dependency
+from app.models import User
 
 router = APIRouter()
 
-@router.post('/login')
+@router.post('/')
 def login(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
     user = authenticate(db, form_data.username, form_data.password)
     if not user:
@@ -24,3 +27,7 @@ def login(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Dep
     access_token = create_access_token(data={'sub': user.username}, expires_delta=access_token_expires)
 
     return Token(access_token=access_token, token_type='bearer') 
+
+@router.get('/users/me', response_model=UserResponse)
+def get_user_me(current_user: Annotated[User, Depends(get_current_active_user)]):
+    return current_user
