@@ -15,8 +15,8 @@ from app.models import User
 router = APIRouter()
 
 @router.post('/')
-def login(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
-    user = authenticate(db, form_data.username, form_data.password)
+async def login(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
+    user = await authenticate(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -29,5 +29,5 @@ def login(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Dep
     return Token(access_token=access_token, token_type='bearer') 
 
 @router.get('/users/me', response_model=UserResponse)
-def get_user_me(current_user: Annotated[User, Depends(get_current_active_user)]):
+async def get_user_me(current_user: Annotated[User, Depends(get_current_active_user)]):
     return current_user
