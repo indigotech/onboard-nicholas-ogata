@@ -12,9 +12,10 @@ class UserRequest(BaseModel):
 
 class UserResponse(BaseModel):
     id: UUID
-    name: str
+    username: str
     age: int
     email: str
+    is_active: bool
 
     class Config:
         orm_mode = True

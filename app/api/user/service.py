@@ -8,6 +8,7 @@ from app.api.auth.schema import TokenData
 from app.api.user.router import get_by_username
 from app.core.config import settings
 from app.core.utils import db_dependency
+from app.models import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -29,3 +30,8 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     if user is None:
         raise credentials_exception
     return user
+
+def get_current_active_user(current_user: Annotated[User, Depends(get_current_user)]):
+    if not current_user.is_active: 
+        raise HTTPException(status_code=400, detail="Inactive user")
+    return current_user
