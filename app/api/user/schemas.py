@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from uuid import UUID
 
 class UserRequest(BaseModel):
-    name: str = Field(min_length=1)
+    username: str = Field(min_length=1)
     age: int = Field(ge=18)
     email: str = Field(min_length=1)
     password: str = Field(min_length=8)
