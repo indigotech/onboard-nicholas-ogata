@@ -1,9 +1,10 @@
+from datetime import date
 from pydantic import BaseModel, Field
 from uuid import UUID
 
 class UserRequest(BaseModel):
-    name: str = Field(min_length=1)
-    age: int = Field(ge=18)
+    username: str = Field(min_length=1)
+    birth_date: date
     email: str = Field(min_length=1)
     password: str = Field(min_length=8)
 
@@ -12,9 +13,10 @@ class UserRequest(BaseModel):
 
 class UserResponse(BaseModel):
     id: UUID
-    name: str
-    age: int
+    username: str
+    birth_date: date
     email: str
+    is_active: bool
 
     class Config:
         orm_mode = True
