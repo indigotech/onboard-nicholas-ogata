@@ -19,7 +19,7 @@ def test_get_all_users():
     assert 'is_active' in data[0]
 
 def test_create_user():
-    new_user = {'username': 'UserTest', 'birth_date': 40, 'email': 'usertest@email.com'}
+    new_user = {'username': 'UserTest', 'birth_date': '2001-01-01', 'email': 'usertest@email.com'}
     response = requests.post(url+'/users', json=new_user)
 
     assert response.status_code == 201
