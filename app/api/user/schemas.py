@@ -3,7 +3,7 @@ from uuid import UUID
 
 class UserRequest(BaseModel):
     username: str = Field(min_length=1)
-    age: int = Field(ge=18)
+    birth_date: str = Field(min_length=1)
     email: str = Field(min_length=1)
     password: str = Field(min_length=8)
 
@@ -13,7 +13,7 @@ class UserRequest(BaseModel):
 class UserResponse(BaseModel):
     id: UUID
     username: str
-    age: int
+    birth_date: str
     email: str
     is_active: bool
 
