@@ -1,6 +1,6 @@
 from starlette import status
 from datetime import timedelta
-from app.api.auth.schema import Token
+from app.api.auth.schemas import Token
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm

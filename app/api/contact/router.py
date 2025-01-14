@@ -1,7 +1,7 @@
 from uuid import UUID
 from starlette import status
 from fastapi import APIRouter, Depends, HTTPException
-from app.api.contact.schema import ContactRequest, ContactResponse
+from app.api.contact.schemas import ContactRequest, ContactResponse
 from app.api.user.service import get_current_active_user
 from app.core.utils import db_dependency
 from app.models import Contact

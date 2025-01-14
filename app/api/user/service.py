@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, Path
 from jwt.exceptions import InvalidTokenError
-from app.api.auth.schema import TokenData
+from app.api.auth.schemas import TokenData
 from app.core.config import settings
 from app.core.utils import db_dependency
 from app.models import User
