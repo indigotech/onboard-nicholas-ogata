@@ -1,6 +1,5 @@
 from app.core.database import Base
-from sqlalchemy import Column, ForeignKey, String, Boolean, Date
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Boolean, Date
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
@@ -13,7 +12,6 @@ class User(Base):
     email = Column(String, primary_key=False, index=True, unique=True)
     password = Column(String, primary_key=False)
     is_active = Column(Boolean, default=True)
-    contacts = relationship('Contact', back_populates='user', cascade='all, delete-orphan')
 
 class Contact(Base):
     __tablename__ = 'contacts'
@@ -22,5 +20,3 @@ class Contact(Base):
     name = Column(String, primary_key=False, index=True)
     cpf = Column(String, primary_key=False, index=True)
     phone = Column(String, primary_key=False, index=True)
-    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'))
-    user = relationship('User', back_populates='contacts')

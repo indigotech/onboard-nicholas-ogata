@@ -14,7 +14,6 @@ class ContactResponse(BaseModel):
     name: str
     cpf: str
     phone: str
-    user_id: UUID
     
     class Config:
         orm_mode = True

@@ -8,12 +8,11 @@ from app.models import Contact, User
 
 router = APIRouter()
 
-@router.post('/', status_code=status.HTTP_201_CREATED, response_model=ContactResponse)
-async def create_contact(db: db_dependency, current_user: Annotated[User, Depends(get_current_active_user)], contact_request: ContactRequest):
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=ContactResponse, dependencies=[Depends(get_current_active_user)])
+async def create_contact(db: db_dependency, contact_request: ContactRequest):
     new_contact = Contact(name=contact_request.name,
                           cpf=contact_request.cpf,
                           phone=contact_request.phone,
-                          user_id=current_user.id,
                           )
     
     db.add(new_contact)
@@ -22,6 +21,6 @@ async def create_contact(db: db_dependency, current_user: Annotated[User, Depend
 
     return new_contact
 
-@router.get('/', status_code=status.HTTP_200_OK, response_model=list[ContactResponse])
+@router.get('/', status_code=status.HTTP_200_OK, response_model=list[ContactResponse], dependencies=[Depends(get_current_active_user)])
 async def get_all_contacts(db: db_dependency):
     return db.query(Contact).all()
