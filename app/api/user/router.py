@@ -21,7 +21,7 @@ async def get_by_id(db: db_dependency, id: UUID):
         return user
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
 
-@router.get('/user/me', response_model=UserResponse)
+@router.get('/user/me', status_code=status.HTTP_200_OK, response_model=UserResponse)
 async def get_user_me(current_user: Annotated[User, Depends(get_current_active_user)]):
     return current_user
 
