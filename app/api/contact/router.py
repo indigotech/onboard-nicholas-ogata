@@ -1,10 +1,10 @@
+from uuid import UUID
 from starlette import status
-from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from app.api.contact.schema import ContactRequest, ContactResponse
 from app.api.user.service import get_current_active_user
 from app.core.utils import db_dependency
-from app.models import Contact, User
+from app.models import Contact
 
 router = APIRouter()
 
@@ -24,3 +24,10 @@ async def create_contact(db: db_dependency, contact_request: ContactRequest):
 @router.get('/', status_code=status.HTTP_200_OK, response_model=list[ContactResponse], dependencies=[Depends(get_current_active_user)])
 async def get_all_contacts(db: db_dependency):
     return db.query(Contact).all()
+
+@router.get('/{id}', status_code=status.HTTP_200_OK, response_model=ContactResponse, dependencies=[Depends(get_current_active_user)])
+async def get_by_id(db: db_dependency, id: UUID):
+    contact = db.query(Contact).filter(Contact.id == id).first()
+    if contact is not None:
+        return contact
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
