@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.api.user.router import get_by_username
+from app.api.user.service import get_by_username
 from app.core.security import verify_password
 
 async def authenticate(db: Session, username: str, password: str):
