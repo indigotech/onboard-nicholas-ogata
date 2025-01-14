@@ -30,4 +30,27 @@ async def get_by_id(db: db_dependency, id: UUID):
     contact = db.query(Contact).filter(Contact.id == id).first()
     if contact is not None:
         return contact
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Contact not found')
+
+@router.put('/{id}', status_code=status.HTTP_200_OK, response_model=ContactResponse, dependencies=[Depends(get_current_active_user)])
+async def update_contact(db: db_dependency, contact_request: ContactRequest, id: UUID):
+    contact = db.query(Contact).filter(Contact.id == id).first()
+    if contact is not None:
+        for var, value in vars(contact_request).items():
+            setattr(contact, var, value) if value else None
+        db.commit()
+        db.refresh(contact)
+
+        return contact
+        
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Contact not found')
+
+@router.delete('/{id}', status_code=status.HTTP_200_OK, dependencies=[Depends(get_current_active_user)])
+async def delete_contact(db: db_dependency, id: UUID):
+    contact = db.query(Contact).filter(Contact.id == id).first()
+    if contact is not None:
+        db.delete(contact)
+        db.commit()
+        return
+    
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Contact not found')
