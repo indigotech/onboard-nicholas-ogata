@@ -19,13 +19,13 @@ async def get_current_user(db: db_dependency, token: Annotated[str, Depends(oaut
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORYTHM])
-        username: str = payload.get('sub')
-        if username is None:
+        email: str = payload.get('sub')
+        if email is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
+        token_data = TokenData(email=email)
     except InvalidTokenError:
         raise credentials_exception
-    user = await get_by_username(db, username=token_data.username)
+    user = await get_by_email(db, email=token_data.email)
     if user is None:
         raise credentials_exception
     return user
@@ -35,8 +35,8 @@ async def get_current_active_user(current_user: Annotated[User, Depends(get_curr
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
-async def get_by_username(db: db_dependency, username: str = Path(min_length=1)):
-    user = db.query(User).filter(User.username == username).first()
+async def get_by_email(db: db_dependency, email: str = Path(min_length=1)):
+    user = db.query(User).filter(User.email == email).first()
     if user is not None:
         return user
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
