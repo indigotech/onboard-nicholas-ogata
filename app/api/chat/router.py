@@ -8,9 +8,9 @@ from app.models import Chat
 
 router = APIRouter()
 
-@router.post('/{id}', status_code=status.HTTP_201_CREATED, response_model=ChatResponse, dependencies=[Depends(get_current_active_user)])
-async def create_chat(db: db_dependency, id: UUID):
-    new_chat = Chat(contact_id=id)
+@router.post('/{contact_id}', status_code=status.HTTP_201_CREATED, response_model=ChatResponse, dependencies=[Depends(get_current_active_user)])
+async def create_chat(db: db_dependency, contact_id: UUID):
+    new_chat = Chat(contact_id=contact_id)
     
     db.add(new_chat)
     db.commit()
@@ -23,7 +23,7 @@ async def get_all_chats(db: db_dependency):
     return db.query(Chat).all()
 
 @router.get('/{id}', status_code=status.HTTP_200_OK, response_model=ChatResponse, dependencies=[Depends(get_current_active_user)])
-async def get_by_id(db: db_dependency, id: UUID):
+async def get_chat_by_id(db: db_dependency, id: UUID):
     chat = db.query(Chat).filter(Chat.id == id).first()
     if chat is not None:
         return chat
