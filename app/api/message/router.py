@@ -9,11 +9,11 @@ from app.models import Message
 
 router = APIRouter()
 
-@router.post('/{id}', status_code=status.HTTP_201_CREATED, response_model=MessageResponse, dependencies=[Depends(get_current_active_user)])
-async def create_message(db: db_dependency, contact_request: MessageRequest, id: UUID):
+@router.post('/{chat_id}', status_code=status.HTTP_201_CREATED, response_model=MessageResponse, dependencies=[Depends(get_current_active_user)])
+async def create_message(db: db_dependency, contact_request: MessageRequest, chat_id: UUID):
     new_message = Message(origin=contact_request.origin,
                           content=contact_request.content,
-                          chat_id=id
+                          chat_id=chat_id
                           )
     
     db.add(new_message)
