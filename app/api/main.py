@@ -3,6 +3,7 @@ from app.api.user import router as user_router
 from app.api.auth import router as auth_router
 from app.api.contact import router as contact_router
 from app.api.chat import router as chat_router
+from app.api.message import router as message_router
 
 app = FastAPI()
 
@@ -12,5 +13,6 @@ api_router.include_router(user_router.router, prefix='/users')
 api_router.include_router(auth_router.router, prefix='/login')
 api_router.include_router(contact_router.router, prefix='/contacts')
 api_router.include_router(chat_router.router, prefix='/chats')
+api_router.include_router(message_router.router, prefix='/messages')
 
 app.include_router(api_router)
