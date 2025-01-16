@@ -27,7 +27,7 @@ async def get_all_messages(db: db_dependency):
     return db.query(Message).all()
 
 @router.get('/{id}', status_code=status.HTTP_200_OK, response_model=MessageResponse, dependencies=[Depends(get_current_active_user)])
-async def get_by_id(db: db_dependency, id: UUID):
+async def get_message_by_id(db: db_dependency, id: UUID):
     message = db.query(Message).filter(Message.id == id).first()
     if message is not None:
         return message

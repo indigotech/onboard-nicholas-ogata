@@ -9,7 +9,7 @@ class Origin(str, Enum):
 
 class MessageRequest(BaseModel):
     origin: Origin
-    content: str = Field(min_length=1, max_length=50)
+    content: str = Field(min_length=1, max_length=500)
 
     class Config:
         orm_mode = True
